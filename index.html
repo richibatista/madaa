@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
   <title>Feliz Navidad, Madalena</title>
 
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
@@ -11,11 +11,15 @@
     :root{
       --bg1: #0f172a;
       --bg2: #04263a;
-      --card: rgba(255,255,255,0.95);
+      --card: rgba(255,255,255,0.97);
       --accent: #FF6B6B;
+      --accent-2: #FF9A9A;
       --muted: #6b7280;
       --glass: rgba(255,255,255,0.06);
-      --maxw: 900px;
+      --maxw: 980px;
+      --gap: 22px;
+      --btn-pad: 14px 16px;
+      --touch-size: 48px; /* mínimo recomendado */
     }
     *{box-sizing:border-box}
     html,body{height:100%;}
@@ -30,66 +34,74 @@
       display:flex;
       align-items:center;
       justify-content:center;
-      padding:40px 20px;
+      padding:28px 16px;
     }
 
     .scene{
       width:100%;
       max-width:var(--maxw);
       position:relative;
-      padding:40px;
-      border-radius:20px;
-      background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
+      padding:28px;
+      border-radius:18px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
       box-shadow: 0 10px 30px rgba(2,6,23,0.6);
       backdrop-filter: blur(6px) saturate(120%);
       overflow:hidden;
     }
 
+    /* decorative snow - subtle on mobile */
     .snow {
       pointer-events:none;
       position:absolute;
       inset:0;
       z-index:0;
-      background-image: radial-gradient(circle at 10% 10%, rgba(255,255,255,0.07) 1px, transparent 2px),
-                        radial-gradient(circle at 70% 20%, rgba(255,255,255,0.06) 1px, transparent 2px),
-                        radial-gradient(circle at 40% 80%, rgba(255,255,255,0.05) 1px, transparent 2px);
+      background-image:
+        radial-gradient(circle at 10% 10%, rgba(255,255,255,0.04) 1px, transparent 2px),
+        radial-gradient(circle at 70% 20%, rgba(255,255,255,0.035) 1px, transparent 2px),
+        radial-gradient(circle at 40% 80%, rgba(255,255,255,0.03) 1px, transparent 2px);
       background-size: 3px 3px, 3px 3px, 3px 3px;
-      animation: drift 12s linear infinite;
-      opacity:0.9;
+      animation: drift 18s linear infinite;
+      opacity:0.85;
     }
     @keyframes drift {
-      0%{ transform: translateY(-40px) rotate(0deg); }
-      100%{ transform: translateY(40px) rotate(360deg); }
+      0%{ transform: translateY(-30px) rotate(0deg); }
+      100%{ transform: translateY(30px) rotate(360deg); }
     }
 
     .content{
       position:relative;
       z-index:2;
       display:grid;
-      grid-template-columns: 1fr 360px;
-      gap:30px;
-      align-items:center;
+      grid-template-columns: 1fr 380px;
+      gap:var(--gap);
+      align-items:start;
     }
 
+    /* MOBILE FIRST ADJUSTMENTS */
     @media (max-width:880px){
-      .content{grid-template-columns: 1fr; padding-bottom: 20px;}
+      .content{
+        grid-template-columns: 1fr;
+        gap:18px;
+      }
+      .scene{ padding:18px; border-radius:14px; }
+      .portrait{ height:200px; border-radius:12px; }
     }
 
     .message-card{
-      background: linear-gradient(180deg, rgba(255,255,255,0.98), var(--card));
-      padding:28px;
-      border-radius:14px;
-      box-shadow: 0 6px 18px rgba(2,6,23,0.12);
+      background: var(--card);
+      padding:20px;
+      border-radius:12px;
+      box-shadow: 0 6px 18px rgba(2,6,23,0.08);
       color: #081029;
     }
     .headline{
       font-family: "Playfair Display", serif;
-      font-size: clamp(22px, 3.2vw, 34px);
+      font-size: clamp(20px, 3.6vw, 30px);
       margin:0 0 6px 0;
       color: #0b1220;
     }
     .sub{
-      margin:0 0 18px 0;
+      margin:0 0 14px 0;
       color:var(--muted);
       font-size:14px;
     }
@@ -110,29 +122,22 @@
       width:56px;
       height:56px;
       border-radius:12px;
-      background:linear-gradient(135deg,var(--accent), #ffb86b);
+      background:linear-gradient(135deg,var(--accent), var(--accent-2));
       display:flex;
       align-items:center;
       justify-content:center;
       color:white;
       font-weight:700;
       font-size:18px;
-      box-shadow: 0 6px 18px rgba(255,107,107,0.14);
+      box-shadow: 0 6px 18px rgba(255,107,107,0.12);
     }
-    .sign-text{
-      font-size:14px;
-      color:#0b1220;
-      font-weight:600;
-    }
-    .meta{
-      font-size:13px;
-      color:var(--muted);
-    }
+    .sign-text{ font-size:14px; color:#0b1220; font-weight:600; }
+    .meta{ font-size:13px; color:var(--muted); }
 
     .side{
-      background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
       border-radius:12px;
-      padding:18px;
+      padding:12px;
       display:flex;
       flex-direction:column;
       gap:12px;
@@ -140,15 +145,14 @@
       justify-content:flex-start;
       color: #fff;
     }
-    /* Use the bundled photo file */
     .portrait{
       width:100%;
-      height:220px;
+      height:240px;
       border-radius:10px;
-      background: center/cover no-repeat;
       box-shadow: 0 10px 30px rgba(2,6,23,0.45);
-      border: 2px solid rgba(255,255,255,0.04);
+      border: 2px solid rgba(255,255,255,0.03);
       overflow:hidden;
+      background: #222;
     }
     .portrait img{ width:100%; height:100%; object-fit:cover; display:block; }
 
@@ -167,41 +171,59 @@
 
     .small{
       font-size:13px;
-      color: rgba(255,255,255,0.85);
+      color: rgba(255,255,255,0.88);
       text-align:center;
       line-height:1.4;
     }
 
+    /* ACTIONS: responsive buttons */
     .actions{
       display:flex;
       gap:10px;
       margin-top:6px;
       width:100%;
       justify-content:center;
+      align-items:center;
+      flex-wrap:wrap;
     }
-    .btn{
-      flex:1;
-      padding:10px 14px;
+    .actions .btn{
+      flex: 1 1 auto;
+      padding: var(--btn-pad);
+      min-height: var(--touch-size);
       border-radius:10px;
       border:0;
       font-weight:600;
-      background:linear-gradient(90deg,var(--accent), #FF9A9A);
+      background:linear-gradient(90deg,var(--accent), var(--accent-2));
       color:white;
       cursor:pointer;
       box-shadow: 0 8px 20px rgba(255,107,107,0.12);
+      text-decoration:none;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:8px;
+      white-space:nowrap;
     }
-    .btn.ghost{
+    .actions .btn.ghost{
       background:transparent;
       border:1px solid rgba(255,255,255,0.08);
       color:white;
       box-shadow:none;
     }
 
+    /* mobile: stack buttons full width and larger tap targets */
+    @media (max-width:520px){
+      .actions{ flex-direction:column; gap:12px; align-items:stretch; }
+      .actions .btn{ width:100%; font-size:16px; padding:16px; border-radius:12px; }
+      .portrait{ height:200px; }
+      .message{ font-size:15px; }
+    }
+
     footer.notice{
       text-align:center;
       margin-top:18px;
       font-size:13px;
-      color:rgba(255,255,255,0.7);
+      color:rgba(255,255,255,0.75);
     }
 
     .heart{
@@ -210,6 +232,13 @@
       color:var(--accent);
       font-size:14px;
       margin-left:6px;
+    }
+
+    /* Accessibility: focus states */
+    a:focus, button:focus {
+      outline: 3px solid rgba(255,107,107,0.18);
+      outline-offset: 3px;
+      border-radius: 10px;
     }
   </style>
 </head>
@@ -242,28 +271,34 @@ Papá / Mamá
             <div class="meta">Diciembre • 2025</div>
           </div>
         </div>
-
       </section>
 
       <aside class="side" aria-label="Foto y detalles">
         <div class="portrait" role="img" aria-label="Foto de Madalena — reemplázala por una propia">
-          <!-- The photo included in the repository -->
           <img src="IMG-20230406-WA0047.jpg" alt="Foto familiar con Santiago de Compostela al fondo">
         </div>
 
         <div class="badge" aria-hidden="true">Madalena Batista — 20 años</div>
         <p class="small">Responsable • Cariñosa • Magnífica</p>
 
-      <div class="actions">
-        <button class="btn" id="copyBtn" title="Copiar mensaje">Copiar mensaje</button>
-        <button class="btn ghost" id="downloadBtn" title="Imprimir/Guardar">Imprimir</button>
+        <div class="actions" role="navigation" aria-label="Acciones">
+          <button class="btn" id="copyBtn" title="Copiar mensaje">📋 Copiar mensaje</button>
 
-      <a class="btn"
-         href="https://www.youtube.com/watch?v=HkZjaHm4mMc&list=RDHkZjaHm4mMc&start_radio=1"
-         target="_blank" rel="noopener noreferrer">
-         🎵 Escuchar música favorita
-        </a>
-      </div>
+          <button class="btn ghost" id="downloadBtn" title="Imprimir/Guardar">🖨️ Imprimir / Guardar</button>
+
+          <!-- YouTube button: opens in new tab, styled like other buttons -->
+          <a class="btn" 
+             href="https://www.youtube.com/watch?v=HkZjaHm4mMc&list=RDHkZjaHm4mMc&start_radio=1"
+             target="_blank" rel="noopener noreferrer" title="Escuchar música favorita">
+            🎵 Escuchar música favorita
+          </a>
+        </div>
+
+        <p class="small" style="opacity:0.9; margin-top:6px">
+          Sugerencia: si prefieres otra foto, reemplaza el archivo <code>IMG-20230406-WA0047.jpg</code>.
+        </p>
+      </aside>
+    </div>
 
     <footer class="notice" aria-hidden="true">
       Hecho con cariño para Madalena <span class="heart">❤</span>
@@ -271,12 +306,11 @@ Papá / Mamá
   </main>
 
   <script>
+    // Copiar el texto del mensaje (mejor manejo de permisos y feedback)
     document.getElementById('copyBtn').addEventListener('click', async () => {
       const text = document.getElementById('msg').innerText.trim();
-      try {
-        await navigator.clipboard.writeText(text);
-        alert('Mensaje copiado al portapapeles. ¡Puedes pegarlo en un card, tarjeta o mensaje!');
-      } catch (e) {
+      if (!navigator.clipboard) {
+        // Fallback
         const area = document.createElement('textarea');
         area.value = text;
         document.body.appendChild(area);
@@ -284,9 +318,20 @@ Papá / Mamá
         document.execCommand('copy');
         document.body.removeChild(area);
         alert('Mensaje copiado (método alternativo).');
+        return;
+      }
+      try {
+        await navigator.clipboard.writeText(text);
+        // feedback visual amigable en móvil
+        const orig = document.getElementById('copyBtn').innerText;
+        document.getElementById('copyBtn').innerText = '✅ Copiado';
+        setTimeout(()=> document.getElementById('copyBtn').innerText = orig, 1400);
+      } catch (e) {
+        alert('No se pudo copiar automáticamente. Usa la selección manual.');
       }
     });
 
+    // Imprimir (abre el diálogo nativo)
     document.getElementById('downloadBtn').addEventListener('click', () => {
       window.print();
     });
