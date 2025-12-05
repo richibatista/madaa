@@ -1,0 +1,295 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Feliz Navidad, Madalena</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg1: #0f172a;
+      --bg2: #04263a;
+      --card: rgba(255,255,255,0.95);
+      --accent: #FF6B6B;
+      --muted: #6b7280;
+      --glass: rgba(255,255,255,0.06);
+      --maxw: 900px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%;}
+    body{
+      margin:0;
+      font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      background: radial-gradient(1200px 600px at 10% 10%, rgba(255,255,255,0.02), transparent),
+                  linear-gradient(180deg,var(--bg1), var(--bg2));
+      color: #0b1220;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:40px 20px;
+    }
+
+    .scene{
+      width:100%;
+      max-width:var(--maxw);
+      position:relative;
+      padding:40px;
+      border-radius:20px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
+      box-shadow: 0 10px 30px rgba(2,6,23,0.6);
+      backdrop-filter: blur(6px) saturate(120%);
+      overflow:hidden;
+    }
+
+    .snow {
+      pointer-events:none;
+      position:absolute;
+      inset:0;
+      z-index:0;
+      background-image: radial-gradient(circle at 10% 10%, rgba(255,255,255,0.07) 1px, transparent 2px),
+                        radial-gradient(circle at 70% 20%, rgba(255,255,255,0.06) 1px, transparent 2px),
+                        radial-gradient(circle at 40% 80%, rgba(255,255,255,0.05) 1px, transparent 2px);
+      background-size: 3px 3px, 3px 3px, 3px 3px;
+      animation: drift 12s linear infinite;
+      opacity:0.9;
+    }
+    @keyframes drift {
+      0%{ transform: translateY(-40px) rotate(0deg); }
+      100%{ transform: translateY(40px) rotate(360deg); }
+    }
+
+    .content{
+      position:relative;
+      z-index:2;
+      display:grid;
+      grid-template-columns: 1fr 360px;
+      gap:30px;
+      align-items:center;
+    }
+
+    @media (max-width:880px){
+      .content{grid-template-columns: 1fr; padding-bottom: 20px;}
+    }
+
+    .message-card{
+      background: linear-gradient(180deg, rgba(255,255,255,0.98), var(--card));
+      padding:28px;
+      border-radius:14px;
+      box-shadow: 0 6px 18px rgba(2,6,23,0.12);
+      color: #081029;
+    }
+    .headline{
+      font-family: "Playfair Display", serif;
+      font-size: clamp(22px, 3.2vw, 34px);
+      margin:0 0 6px 0;
+      color: #0b1220;
+    }
+    .sub{
+      margin:0 0 18px 0;
+      color:var(--muted);
+      font-size:14px;
+    }
+    .message{
+      font-size:16px;
+      line-height:1.55;
+      color:#0b1220;
+      margin-bottom:18px;
+      white-space:pre-wrap;
+    }
+    .signature{
+      display:flex;
+      gap:12px;
+      align-items:center;
+      margin-top:6px;
+    }
+    .avatar{
+      width:56px;
+      height:56px;
+      border-radius:12px;
+      background:linear-gradient(135deg,var(--accent), #ffb86b);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      color:white;
+      font-weight:700;
+      font-size:18px;
+      box-shadow: 0 6px 18px rgba(255,107,107,0.14);
+    }
+    .sign-text{
+      font-size:14px;
+      color:#0b1220;
+      font-weight:600;
+    }
+    .meta{
+      font-size:13px;
+      color:var(--muted);
+    }
+
+    .side{
+      background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));
+      border-radius:12px;
+      padding:18px;
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+      align-items:center;
+      justify-content:flex-start;
+      color: #fff;
+    }
+    /* Use the bundled photo file */
+    .portrait{
+      width:100%;
+      height:220px;
+      border-radius:10px;
+      background: center/cover no-repeat;
+      box-shadow: 0 10px 30px rgba(2,6,23,0.45);
+      border: 2px solid rgba(255,255,255,0.04);
+      overflow:hidden;
+    }
+    .portrait img{ width:100%; height:100%; object-fit:cover; display:block; }
+
+    .badge{
+      display:inline-flex;
+      gap:10px;
+      align-items:center;
+      background:var(--glass);
+      padding:8px 12px;
+      border-radius:999px;
+      font-weight:600;
+      color:white;
+      font-size:13px;
+      margin-top:6px;
+    }
+
+    .small{
+      font-size:13px;
+      color: rgba(255,255,255,0.85);
+      text-align:center;
+      line-height:1.4;
+    }
+
+    .actions{
+      display:flex;
+      gap:10px;
+      margin-top:6px;
+      width:100%;
+      justify-content:center;
+    }
+    .btn{
+      flex:1;
+      padding:10px 14px;
+      border-radius:10px;
+      border:0;
+      font-weight:600;
+      background:linear-gradient(90deg,var(--accent), #FF9A9A);
+      color:white;
+      cursor:pointer;
+      box-shadow: 0 8px 20px rgba(255,107,107,0.12);
+    }
+    .btn.ghost{
+      background:transparent;
+      border:1px solid rgba(255,255,255,0.08);
+      color:white;
+      box-shadow:none;
+    }
+
+    footer.notice{
+      text-align:center;
+      margin-top:18px;
+      font-size:13px;
+      color:rgba(255,255,255,0.7);
+    }
+
+    .heart{
+      display:inline-block;
+      transform:translateY(2px);
+      color:var(--accent);
+      font-size:14px;
+      margin-left:6px;
+    }
+  </style>
+</head>
+<body>
+  <main class="scene" role="main" aria-labelledby="tit">
+    <div class="snow" aria-hidden="true"></div>
+
+    <div class="content">
+      <section class="message-card" aria-labelledby="tit">
+        <h1 id="tit" class="headline">Feliz Navidad, Madalena 🎄</h1>
+        <p class="sub">Para una hija maravillosa — con todo mi cariño y orgullo.</p>
+
+        <div class="message" id="msg">
+Querida Madalena,
+
+estas fiestas quiero decirte algo muy claro: eres una persona magnífica. Tu responsabilidad, tu cariño y la manera en que cuidas de los que te rodean nos llenan de orgullo. A los 20 años estás construyendo tu camino con valentía.
+
+Sé también que a veces los nervios te ponen en punta y que piensas mucho en ti misma. Eso es humano y parte del proceso; con el tiempo aprenderás a convertir esa atención en fuerza —en confianza para abrirte y en calma para disfrutar más de cada paso. No es un fallo, es una etapa que crecerá y se suavizará con experiencias, con errores y con triunfos.
+
+Te deseo una Navidad llena de paz, risas y abrazos que te recuerden lo querida que eres. Gracias por ser tú.
+
+Con todo mi amor,
+Papá / Mamá
+        </div>
+
+        <div class="signature" aria-hidden="true">
+          <div class="avatar" aria-hidden="true">MB</div>
+          <div>
+            <div class="sign-text">Con todo el cariño</div>
+            <div class="meta">Diciembre • 2025</div>
+          </div>
+        </div>
+
+      </section>
+
+      <aside class="side" aria-label="Foto y detalles">
+        <div class="portrait" role="img" aria-label="Foto de Madalena — reemplázala por una propia">
+          <!-- The photo included in the repository -->
+          <img src="IMG-20230406-WA0047.jpg" alt="Foto familiar con Santiago de Compostela al fondo">
+        </div>
+
+        <div class="badge" aria-hidden="true">Madalena Batista — 20 años</div>
+        <p class="small">Responsable • Cariñosa • Magnífica</p>
+
+        <div class="actions">
+          <button class="btn" id="copyBtn" title="Copiar mensaje">Copiar mensaje</button>
+          <button class="btn ghost" id="downloadBtn" title="Imprimir/Guardar">Imprimir</button>
+        </div>
+
+        <p class="small" style="opacity:0.9; margin-top:6px">
+          Sugerencia: si prefieres otra foto, reemplaza el archivo <code>IMG-20230406-WA0047.jpg</code>.
+        </p>
+      </aside>
+    </div>
+
+    <footer class="notice" aria-hidden="true">
+      Hecho con cariño para Madalena <span class="heart">❤</span>
+    </footer>
+  </main>
+
+  <script>
+    document.getElementById('copyBtn').addEventListener('click', async () => {
+      const text = document.getElementById('msg').innerText.trim();
+      try {
+        await navigator.clipboard.writeText(text);
+        alert('Mensaje copiado al portapapeles. ¡Puedes pegarlo en un card, tarjeta o mensaje!');
+      } catch (e) {
+        const area = document.createElement('textarea');
+        area.value = text;
+        document.body.appendChild(area);
+        area.select();
+        document.execCommand('copy');
+        document.body.removeChild(area);
+        alert('Mensaje copiado (método alternativo).');
+      }
+    });
+
+    document.getElementById('downloadBtn').addEventListener('click', () => {
+      window.print();
+    });
+  </script>
+</body>
+</html>
