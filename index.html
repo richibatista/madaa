@@ -219,7 +219,19 @@
       outline-offset: 3px;
       border-radius: 10px;
     }
-  </style>
+  
+/* Madalena - main photo + thumbnails gallery */
+.madalena-gallery{display:flex;flex-direction:column;gap:12px;margin-top:12px}
+.madalena-main{width:100%;border-radius:12px;overflow:hidden;border:6px solid rgba(220,20,60,0.08);box-shadow:0 10px 30px rgba(2,6,23,0.08);display:flex;justify-content:center;align-items:center;background:rgba(255,255,255,0.06);padding:8px}
+.madalena-main img{width:100%;height:auto;max-height:65vh;object-fit:cover;border-radius:8px;display:block}
+.madalena-thumbs{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
+.mad-thumb{background:transparent;border:2px solid transparent;padding:4px;border-radius:8px;cursor:pointer}
+.mad-thumb img{height:72px;width:auto;border-radius:6px;display:block;object-fit:cover}
+.mad-thumb.active{border-color:#dc143c;box-shadow:0 6px 18px rgba(220,20,60,0.12)}
+@media(min-width:720px){ .madalena-gallery{flex-direction:row}.madalena-main{flex:1}.madalena-thumbs{flex-direction:column;max-width:160px;align-self:flex-start} }
+@media(max-width:520px){ .mad-thumb img{height:56px} .madalena-main img{max-height:50vh} }
+
+</style>
 </head>
 <body>
   <main class="scene" role="main" aria-labelledby="tit">
@@ -247,15 +259,28 @@ Papá / Mamá
           <div class="avatar" aria-hidden="true">MB</div>
           <div>
             <div class="sign-text">Con todo el cariño</div>
-            <div class="meta">Diciembre • 2025</div>
+            <div class="meta">Diciembre • 2025
+<button class="btn share-btn" id="shareBtn">🔗 Compartir</button>
+</div>
           </div>
         </div>
       </section>
 
       <aside class="side" aria-label="Foto y detalles">
-        <div class="portrait" role="img" aria-label="Foto de Madalena — reemplázala por una propia">
-          <img src="IMG-20230406-WA0047.jpg" alt="Foto familiar con Santiago de Compostela al fondo">
-        </div>
+        
+<div class="madalena-gallery">
+  <div class="madalena-main">
+    <img id="madMain" src="madalena1.jpg" alt="Madalena - foto principal">
+  </div>
+  <div class="madalena-thumbs" role="list" aria-label="Miniaturas da Madalena">
+    <button class="mad-thumb" data-src="madalena1.jpg" aria-label="Miniatura 1"><img src="madalena1.jpg" alt="Mini 1"></button>
+    <button class="mad-thumb" data-src="madalena2.jpg" aria-label="Miniatura 2"><img src="madalena2.jpg" alt="Mini 2"></button>
+    <button class="mad-thumb" data-src="madalena3.jpg" aria-label="Miniatura 3"><img src="madalena3.jpg" alt="Mini 3"></button>
+    <button class="mad-thumb" data-src="madalena4.jpg" aria-label="Miniatura 4"><img src="madalena4.jpg" alt="Mini 4"></button>
+    <button class="mad-thumb" data-src="madalena5.jpg" aria-label="Miniatura 5"><img src="madalena5.jpg" alt="Mini 5"></button>
+  </div>
+</div>
+
 
         <div class="badge" aria-hidden="true">Madalena Batista — 20 años</div>
         <p class="small">Responsable • Cariñosa • Magnífica</p>
@@ -263,15 +288,21 @@ Papá / Mamá
         <div class="actions" role="navigation" aria-label="Acciones">
           <button class="btn" id="copyBtn" title="Copiar mensaje">📋 Copiar mensaje</button>
 
-          <button class="btn ghost" id="downloadBtn" title="Imprimir/Guardar">🖨️ Imprimir / Guardar</button>
+          
 
           <!-- YouTube button: opens in new tab, styled like other buttons -->
           <a class="btn" 
-             href="https://www.youtube.com/watch?v=yzTuBuRdAyA&list=RDyzTuBuRdAyA&start_radio=1"
+             href="https://www.youtube.com/watch?v=HkZjaHm4mMc&list=RDHkZjaHm4mMc&start_radio=1"
              target="_blank" rel="noopener noreferrer" title="Escuchar música favorita">
             🎵 Escuchar música favorita
           </a>
         </div>
+
+        <p class="small" style="opacity:0.9; margin-top:6px">
+          Sugerencia: si prefieres otra foto, reemplaza el archivo <code>IMG-20230406-WA0047.jpg</code>.
+        </p>
+      </aside>
+    </div>
 
     <footer class="notice" aria-hidden="true">
       Hecho con cariño para Madalena <span class="heart">❤</span>
@@ -306,8 +337,51 @@ Papá / Mamá
 
     // Imprimir (abre el diálogo nativo)
     document.getElementById('downloadBtn').addEventListener('click', () => {
-      window.print();
+      
     });
   </script>
+<script>
+
+/* Madalena gallery script */
+document.addEventListener('DOMContentLoaded', function(){
+  try{
+    const thumbs = document.querySelectorAll('.mad-thumb');
+    const main = document.getElementById('madMain');
+    if(!thumbs || thumbs.length===0 || !main) return;
+    thumbs.forEach((t, i) => {
+      t.addEventListener('click', function(){
+        const src = t.getAttribute('data-src');
+        if(src){ main.src = src; }
+        thumbs.forEach(x=>x.classList.remove('active'));
+        t.classList.add('active');
+      });
+      // keyboard accessibility
+      t.addEventListener('keydown', function(e){
+        if(e.key==='Enter' || e.key===' '){ e.preventDefault(); t.click(); }
+      });
+    });
+    // set first active
+    thumbs[0].classList.add('active');
+  }catch(e){ console.error(e); }
+});
+
+</script>
+
+<script>
+document.getElementById('shareBtn')?.addEventListener('click', async () => {
+  const url = location.href;
+  if (navigator.share) {
+    try { await navigator.share({ title: document.title, url }); } catch(e) {}
+  } else {
+    try {
+      await navigator.clipboard.writeText(url);
+      alert('Enlace copiado para compartir');
+    } catch(e) {
+      alert('No se pudo copiar el enlace');
+    }
+  }
+});
+</script>
+
 </body>
 </html>
